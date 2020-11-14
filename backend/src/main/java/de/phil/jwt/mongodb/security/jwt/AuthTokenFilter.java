@@ -38,16 +38,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   }
 
   private void setSecurityContext(final HttpServletRequest request, final UserDetails userDetails) {
-    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-      userDetails.getAuthorities());
+    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
     SecurityContextHolder.getContext().setAuthentication(authentication);
   }
 
   private UserDetails getUser(final String jwt) {
     String username = jwtUtils.getUserNameFromJwtToken(jwt);
-
     return userDetailsService.loadUserByUsername(username);
   }
 
@@ -55,7 +52,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     String headerAuth = request.getHeader(HttpHeaders.AUTHORIZATION);
     if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
       // TODO da die laenge des tokens bekannt ist sollte das hier auch als limit stehen + ggf das format checken
-      return headerAuth.substring(7, headerAuth.length());
+      return headerAuth.substring(7);
     }
 
     return null;
