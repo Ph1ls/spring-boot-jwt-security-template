@@ -13,7 +13,7 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-
+// TODO config objekte verwenden und sichere defaults setzen
 	@Value("${app.jwtSecret}")
 	private String jwtSecret;
 
@@ -39,7 +39,10 @@ public class JwtUtils {
 	}
 
 	// Überprüft JWT Token
-	public boolean validateJwtToken(String authToken) {
+	public boolean isJwtTokenValid(String authToken) {
+		if(null == authToken) {
+			return false;
+		}
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
 			return true;
