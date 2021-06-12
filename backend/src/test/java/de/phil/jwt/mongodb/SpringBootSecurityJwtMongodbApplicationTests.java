@@ -8,6 +8,7 @@ class SpringBootSecurityJwtMongodbApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//...
 	}
 
 }

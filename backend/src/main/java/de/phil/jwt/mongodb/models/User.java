@@ -1,17 +1,19 @@
 package de.phil.jwt.mongodb.models;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
-
 @Document(collection = "users")
 public class User {
+
   @Id
   private String id;
 
@@ -35,9 +37,13 @@ public class User {
   }
 
   public User(String username, String email, String password) {
+    this(username, email, password, Collections.emptySet());
+  }
+  public User(String username, String email, String password, Collection<Role> roles) {
     this.username = username;
     this.email = email;
     this.password = password;
+    this.roles.addAll(roles);
   }
 
   public String getId() {
